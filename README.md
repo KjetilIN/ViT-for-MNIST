@@ -43,10 +43,19 @@ The learnable embedding was a strategy used by the language model BERT. When the
 
 The patched embedding is not enough. The order of images matter for classification. For example for handwritten digits, if a patch has a circle, it matter a lot where the circle is relative to the other images. If we don't know where the patch was, then it will be much harder to classify. This makes logical sense. A human, given a set of patches that where shuffled, would make a mistake. Positional information is important. 
 
-Positional embeddings gives us ordering. For ViTs they are learned vectors that are added to the patch embeddings before given to the Transformer. The model learns the best way to encode positional information. After training the authors saw that the is cosine similarity between the given tile of the patch (row and column), and the positional embedding. This confirms that
+Positional embeddings gives us ordering. For ViTs they are learned vectors that are added to the patch embeddings before given to the Transformer. The model learns the best way to encode positional information. After training the authors saw that the is cosine similarity between the given tile of the patch (row and column), and the positional embedding. This confirms that tiles closer in row and column positions tend to have more similar embeddings. This confirms that the model captures meaningful spatial relationships, allowing it to understand the structure of an image.
 
 ![image](./assets/positional_embedding.png)
 
+
+### Transformer 
+
+...
+
+
+### Multi-head attention 
+
+....
 
 ## Resources
 
@@ -64,12 +73,14 @@ The paper: "An Image is Worth 16x16 Words: Transformers for Image Recognition at
 }
 ```
 
-Embedding Methods for Image Search By James Briggs & Laura Carnevali <br>:
+Embedding Methods for Image Search By James Briggs & Laura Carnevali: <br>
 https://www.pinecone.io/learn/series/image-search/
 
 Article on ViT (from the same article series above ^): <br>
 https://www.pinecone.io/learn/series/image-search/vision-transformers/
 
-
 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding: <br>
 https://arxiv.org/abs/1810.04805
+
+Stanford CS25 talk about transformers in vision: <bt>
+https://www.youtube.com/watch?v=BP5CM0YxbP8

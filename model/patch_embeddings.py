@@ -1,8 +1,7 @@
-import torch
 import torch.nn as nn
 
 class PatchEmbedding(nn.Module):
-    """Creates the patch embedding before the transformer encoder 
+    """Creates the patch embedding before the transformer encoder. 
 
     Args:
         image_size: the size of the image 
@@ -16,7 +15,7 @@ class PatchEmbedding(nn.Module):
         self.patch_size = patch_size
         self.num_patches = (image_size // patch_size) ** 2
         
-        # Conv2D does the conversion from a 2d into multiple patches
+        # Conv2D does the conversion from a 2D into multiple patches
         # The size of the given patch into the given output dimension, which is the embed_dim
         # See docs: https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html
         self.projection = nn.Conv2d(in_channels, embed_dim, 
