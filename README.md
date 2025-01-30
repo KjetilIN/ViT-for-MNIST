@@ -1,8 +1,13 @@
 # ViT-for-MNIST
 
-Visual transformer 
+Visual transformer trained for handwritten digit recognizing. 
 
 ![image](./assets/ViT_overview.png)
+
+> [!NOTE]
+>
+> Created for educational purposes. Images and illustrations are taken from resources linked below. 
+> Link to the original paper can be found in the resources. 
 
 
 ## Theory 
@@ -36,6 +41,11 @@ The learnable embedding was a strategy used by the language model BERT. When the
 
 ### Positional embeddings
 
+The patched embedding is not enough. The order of images matter for classification. For example for handwritten digits, if a patch has a circle, it matter a lot where the circle is relative to the other images. If we don't know where the patch was, then it will be much harder to classify. This makes logical sense. A human, given a set of patches that where shuffled, would make a mistake. Positional information is important. 
+
+Positional embeddings gives us ordering. For ViTs they are learned vectors that are added to the patch embeddings before given to the Transformer. The model learns the best way to encode positional information. After training the authors saw that the is cosine similarity between the given tile of the patch (row and column), and the positional embedding. This confirms that
+
+![image](./assets/positional_embedding.png)
 
 
 ## Resources
@@ -60,3 +70,6 @@ https://www.pinecone.io/learn/series/image-search/
 Article on ViT (from the same article series above ^): <br>
 https://www.pinecone.io/learn/series/image-search/vision-transformers/
 
+
+BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding: <br>
+https://arxiv.org/abs/1810.04805
