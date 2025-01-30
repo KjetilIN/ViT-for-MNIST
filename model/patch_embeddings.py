@@ -18,7 +18,7 @@ class PatchEmbedding(nn.Module):
         # Conv2D does the conversion from a 2D into multiple patches
         # The size of the given patch into the given output dimension, which is the embed_dim
         # See docs: https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html
-        self.projection = nn.Conv2d(in_channels, embed_dim, 
+        self.projection = nn.Conv2d(in_channels, embed_dim, groups=1, 
                                   kernel_size=patch_size, stride=patch_size)
 
     def forward(self, x):

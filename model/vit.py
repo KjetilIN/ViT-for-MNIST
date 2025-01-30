@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch
-from .patch_embeddings import PatchEmbedding
+from patch_embeddings import PatchEmbedding
 
 class VisionTransformer(nn.Module):
     """Creates the ViT model with patch embedding, class embedding, positional embedding, Transformer and Multi-head attention."""
