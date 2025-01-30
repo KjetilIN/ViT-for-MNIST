@@ -82,5 +82,5 @@ https://www.pinecone.io/learn/series/image-search/vision-transformers/
 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding: <br>
 https://arxiv.org/abs/1810.04805
 
-Stanford CS25 talk about transformers in vision: <bt>
+Stanford CS25 talk about transformers in vision: <br>
 https://www.youtube.com/watch?v=BP5CM0YxbP8
