@@ -22,7 +22,7 @@ class VisionTransformer(nn.Module):
         self.patch_embed = PatchEmbedding(
             image_size=image_size,
             patch_size=patch_size,
-            in_channels=in_channels,
+            in_channels=int(in_channels),
             embed_dim=embed_dim
         )
         
