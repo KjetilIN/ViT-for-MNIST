@@ -65,6 +65,7 @@ class VisionTransformer(nn.Module):
             nn.init.zeros_(m.bias)
             nn.init.ones_(m.weight)
 
+
     def forward(self, x):
         # Patch embedding
         x = self.patch_embed(x)  # (batch_size, num_patches, embed_dim)
@@ -86,3 +87,30 @@ class VisionTransformer(nn.Module):
         x = self.mlp_head(x)
         
         return x
+    
+    def predict(self, digit_tensor):
+        """Predict method to predict a single tensor vector 
+
+        Args:
+            digit_tensor (int): Shape must be (1, 28, 28)
+
+        Returns:
+            (predicted_digit, probability_dict): A tuple where the first item is the predicted digit, the second item is the dictionary of the probabilities predicted
+        """
+
+        # Add batch dimension to be able to predict a digit 
+        digit_for_eval = digit_tensor.unsqueeze(0)
+
+        # Pass the digit to the model 
+        pred = self(digit_for_eval)
+
+        # Find the digit with highest probability 
+        pred_digit = pred.argmax(dim=1).item()
+
+        # If you want to see the probabilities for all classes:
+        probabilities = torch.nn.functional.softmax(pred, dim=1)
+        probabilities_dict = {}
+        for digit, prob in enumerate(probabilities[0]):
+            probabilities_dict.update({digit: prob.item()})
+
+        return pred_digit, probabilities_dict 
