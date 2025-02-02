@@ -19,3 +19,4 @@ tqdm
 ipywidgets
 transformers
 flask
+flask_cors
