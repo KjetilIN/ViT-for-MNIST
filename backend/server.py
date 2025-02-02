@@ -16,18 +16,8 @@ CORS(app)
 
 # Loading the model
 model = VisionTransformer()
-model.load_state_dict(torch.load("./checkpoints/model.pt"))
+model.load_state_dict(torch.load("./checkpoints/model.pt", map_location=torch.device("cpu")))
 model.eval()
-
-def debug_tensor(tensor, name="tensor"):
-    """Print debug information about a tensor"""
-    print(f"\n=== {name} Debug Info ===")
-    print(f"Shape: {tensor.shape}")
-    print(f"Data type: {tensor.dtype}")
-    print(f"Min value: {tensor.min()}")
-    print(f"Max value: {tensor.max()}")
-    print(f"Mean value: {tensor.mean()}")
-    print(f"Sample values:\n{tensor[0, :5, :5]}\n")  # Print 5x5 sample
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -38,41 +28,30 @@ def predict():
             if 'matrix' not in data:
                 return jsonify({'error': 'No matrix found in request body'}), 400
             
-            # Print raw input data
-            print("\n=== Raw Input Data ===")
-            print(f"Length of input array: {len(data['matrix'])}")
-            print(f"Sample values: {data['matrix'][:10]}")
+            # Convert to numpy and reshape
+            matrix = np.array(data['matrix'], dtype=np.float32).reshape(28, 28)
             
-            # Convert the 1D array to a 28x28 numpy array
-            matrix = np.array(data['matrix'], dtype=np.float32)
-            matrix = matrix.reshape(28, 28)
-            
-            # Normalize the data
-            # If input is 0-255, normalize to 0-1
-            if matrix.max() > 1.0:
-                matrix = matrix / 255.0
-            
-            # Convert to tensor and add batch dimension
-            digit_tensor = torch.from_numpy(matrix).unsqueeze(0)
-            
-            # Debug prints
-            debug_tensor(digit_tensor, "Input Tensor")
+            # Convert to tensor
+            digit_tensor = torch.from_numpy(matrix).unsqueeze(0)  # Add batch dimension
             
             # Make prediction
             with torch.no_grad():
                 predicted_digit, probability_dict = model.predict(digit_tensor)
+                for k, v in probability_dict.items():
+                    print(f"Raw pred: Digit {k}: {v:.4f}")
             
-            # Debug prints for prediction
-            print("\n=== Prediction Debug Info ===")
-            print(f"Predicted digit: {predicted_digit}")
-            print("Probabilities:", {k: float(v) for k, v in probability_dict.items()})
+            # Round probabilities to 4 decimal places and convert to Python types
+            rounded_probs = {int(k): round(float(v), 4) for k, v in probability_dict.items()}
             
-            # Convert any numpy/torch types to Python native types
-            probability_dict = {int(k): float(v) for k, v in probability_dict.items()}
+            # Debug print
+            print("\nPrediction Details:")
+            sorted_probs = sorted(rounded_probs.items(), key=lambda x: x[1], reverse=True)
+            for digit, prob in sorted_probs:
+                print(f"Digit {digit}: {prob:.4f}")
             
             return jsonify({
                 'prediction': int(predicted_digit),
-                'probabilities': probability_dict
+                'probabilities': rounded_probs
             })
             
         except Exception as e:
