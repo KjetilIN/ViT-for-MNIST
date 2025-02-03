@@ -15,7 +15,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Loading the model
-model = VisionTransformer()
+model = VisionTransformer(patch_size=4)
 model.load_state_dict(torch.load("./checkpoints/model.pt", map_location=torch.device("cpu")))
 model.eval()
 
