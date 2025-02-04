@@ -64,7 +64,7 @@ npm run dev
 ```
 
 3. Try it out!
-4. 
+ 
 ![image](./assets/digit_predict_webapp.png)
 
 
