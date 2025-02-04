@@ -48,14 +48,28 @@ Positional embeddings gives us ordering. For ViTs they are learned vectors that 
 ![image](./assets/positional_embedding.png)
 
 
-### Transformer 
+## Usage
 
-...
+There is also a web-demo in this repo. To use it: 
+
+1. Run the Flask backend by running the following command
+```terminal
+python backend/server.py
+```
+
+2. Run the React frontend app 
+```text
+cd ./frontend
+npm run dev 
+```
+
+3. Try it out!
+![image](./assets/digit_predict_webapp.png)
 
 
-### Multi-head attention 
-
-....
+> [!WARNING]
+>
+> The trained version does not generalize as well as I would want. 
 
 ## Resources
 
